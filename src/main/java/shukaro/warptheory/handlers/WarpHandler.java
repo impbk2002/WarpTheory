@@ -47,28 +47,50 @@ public class WarpHandler
 
     public static void initEvents()
     {
-        warpEvents.add(new WarpBats());
-        warpEvents.add(new WarpBlink());
-        warpEvents.add(new WarpBuff("poison", 16, new PotionEffect(Potion.poison.id, 20 * 20)));
-        warpEvents.add(new WarpBuff("nausea", 25, new PotionEffect(Potion.confusion.id, 20 * 20)));
-        warpEvents.add(new WarpBuff("jump", 18, new PotionEffect(Potion.jump.id, 20 * 20, 20)));
-        warpEvents.add(new WarpBuff("blind", 43, new PotionEffect(Potion.blindness.id, 20 * 20)));
-        warpEvents.add(new WarpDecay());
-        warpEvents.add(new WarpEars());
-        warpEvents.add(new WarpSwamp());
-        warpEvents.add(new WarpTongue());
-        warpEvents.add(new WarpFriend());
-        warpEvents.add(new WarpLivestockRain());
-        warpEvents.add(new WarpWind());
-        warpEvents.add(new WarpChests());
-        warpEvents.add(new WarpBlood());
-        warpEvents.add(new WarpAcceleration());
-        warpEvents.add(new WarpLightning());
-        warpEvents.add(new WarpFall());
-        warpEvents.add(new WarpRain());
-        warpEvents.add(new WarpWither());
-        warpEvents.add(new WarpFakeSound("fakeexplosion", "random.explode", 8));
-        warpEvents.add(new WarpFakeSoundBehind("fakecreeper", "creeper.primed", 2));
+    	if(WarpTheory.allowWarpEffect1)
+    		warpEvents.add(new WarpBats());
+    	if(WarpTheory.allowWarpEffect2)
+    		warpEvents.add(new WarpBlink());
+    	if(WarpTheory.allowWarpEffect3)
+    		warpEvents.add(new WarpBuff("poison", 16, new PotionEffect(Potion.poison.id, 20 * 20)));
+    	if(WarpTheory.allowWarpEffect4)
+    		warpEvents.add(new WarpBuff("nausea", 25, new PotionEffect(Potion.confusion.id, 20 * 20)));
+    	if(WarpTheory.allowWarpEffect5)
+    		warpEvents.add(new WarpBuff("jump", 18, new PotionEffect(Potion.jump.id, 20 * 20, 20)));
+    	if(WarpTheory.allowWarpEffect6)
+    		warpEvents.add(new WarpBuff("blind", 43, new PotionEffect(Potion.blindness.id, 20 * 20)));
+    	if(WarpTheory.allowGlobalWarpEffects && WarpTheory.allowWarpEffect7)
+    		warpEvents.add(new WarpDecay());
+    	if(WarpTheory.allowWarpEffect8)
+    		warpEvents.add(new WarpEars());
+    	if(WarpTheory.allowGlobalWarpEffects && WarpTheory.allowWarpEffect9)
+    		warpEvents.add(new WarpSwamp());
+    	if(WarpTheory.allowWarpEffect10)
+    		warpEvents.add(new WarpTongue());
+    	if(WarpTheory.allowWarpEffect11)
+    		warpEvents.add(new WarpFriend());
+    	if(WarpTheory.allowWarpEffect12)
+    		warpEvents.add(new WarpLivestockRain());
+    	if(WarpTheory.allowWarpEffect13)
+    		warpEvents.add(new WarpWind());
+    	if(WarpTheory.allowWarpEffect14)
+    		warpEvents.add(new WarpChests());
+    	if(WarpTheory.allowWarpEffect15)
+    		warpEvents.add(new WarpBlood());
+    	if(WarpTheory.allowWarpEffect16)
+    		warpEvents.add(new WarpAcceleration());
+    	if(WarpTheory.allowWarpEffect17)
+    		warpEvents.add(new WarpLightning());
+    	if(WarpTheory.allowGlobalWarpEffects && WarpTheory.allowWarpEffect18 && WarpTheory.allowServerKickWarpEffects)
+    		warpEvents.add(new WarpFall());
+    	if(WarpTheory.allowGlobalWarpEffects && WarpTheory.allowWarpEffect19)
+    		warpEvents.add(new WarpRain());
+    	if(WarpTheory.allowGlobalWarpEffects && WarpTheory.allowWarpEffect20)
+    		warpEvents.add(new WarpWither());
+    	if(WarpTheory.allowWarpEffect21)
+    		warpEvents.add(new WarpFakeSound("fakeexplosion", "random.explode", 8));
+    	if(WarpTheory.allowWarpEffect22)
+    		warpEvents.add(new WarpFakeSoundBehind("fakecreeper", "creeper.primed", 2));
 
         addDecayMapping(Blocks.grass, Blocks.dirt);
         addDecayMapping(Blocks.dirt, 0, Blocks.sand);
