@@ -37,7 +37,7 @@ public class WarpTheory
 
     public static final String modID = "WarpTheory";
     public static final String modName = "WarpTheory";
-    public static final String modVersion = "1.7.10R1.0.Custom";
+    public static final String modVersion = "1.7.10R1.01.Custom";
 
     public static boolean wussMode = false;
     public static int permWarpMult = 2;
