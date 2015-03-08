@@ -4,6 +4,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 import shukaro.warptheory.WarpTheory;
+import shukaro.warptheory.handlers.ConfigHandler;
 import shukaro.warptheory.items.WarpItems;
 import shukaro.warptheory.recipe.WarpRecipes;
 import thaumcraft.api.ItemApi;
@@ -25,7 +26,7 @@ public class WarpResearch
 
     public static void initResearch()
     {
-        if (!WarpTheory.wussMode)
+        if (!ConfigHandler.wussMode)
         {
             researchCleanser = new ResearchItem("WARPCLEANSER", "ELDRITCH", new AspectList().add(Aspect.ELDRITCH, 6).add(Aspect.EXCHANGE, 3), -3, -2, 2, new ItemStack(WarpItems.itemCleanser))
                     .setPages(new ResearchPage[]{

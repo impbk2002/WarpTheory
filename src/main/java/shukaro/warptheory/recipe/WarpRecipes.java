@@ -3,6 +3,7 @@ package shukaro.warptheory.recipe;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import shukaro.warptheory.WarpTheory;
+import shukaro.warptheory.handlers.ConfigHandler;
 import shukaro.warptheory.items.WarpItems;
 import thaumcraft.api.ItemApi;
 import thaumcraft.api.ThaumcraftApi;
@@ -26,7 +27,7 @@ public class WarpRecipes
     public static void initRecipes()
     {
         initMeats();
-        if (!WarpTheory.wussMode)
+        if (!ConfigHandler.wussMode)
         {
             ThaumcraftApi.addInfusionCraftingRecipe("WARPCLEANSER", new ItemStack(WarpItems.itemCleanser), 5, new AspectList().add(Aspect.ELDRITCH, 16).add(Aspect.EXCHANGE, 16), new ItemStack(Items.nether_star),
                     new ItemStack[]{ItemApi.getItem("itemResource", 14), new ItemStack(Items.ghast_tear), new ItemStack(Items.diamond), new ItemStack(Items.quartz),
