@@ -2,23 +2,21 @@ package shukaro.warptheory.handlers;
 
 import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.config.Configuration;
+import shukaro.warptheory.recipe.WarpRecipes;
+import shukaro.warptheory.research.WarpResearch;
+import shukaro.warptheory.util.Constants;
 
 import java.io.File;
 /**
  * Created by Ark on 3/7/2015.
  * code in part provided by pahimar and TheOldOne822
  */
-public class ConfigHandler
-{
-    public static void save() {
-        config.save();
-    }
+public class ConfigHandler {
 
     public static Configuration config;
     public static boolean wussMode = false;
-    public static int permWarpMult = 2;
+    public static int permWarpMult = 4;
     public static boolean allowPermWarpRemoval = true;
     public static boolean allowGlobalWarpEffects = false;
     public static boolean allowWarpEffects = false;
@@ -48,11 +46,13 @@ public class ConfigHandler
 
     public static void init(File configFile)
     {
-        // Create the config object from the given config file
-        if (config == null)
-        {
+        if (config == null) {
+            // Create the config object from the given config file
             config = new Configuration(configFile);
+
+            config.addCustomCategoryComment("general", "Change the inner workings of the mod requires restart");
             config.addCustomCategoryComment("warp_effects", "Toggle specific warp effect, If all disabled Pure Tear will not work");
+            config.setCategoryRequiresMcRestart("general", true);
 
             loadConfiguration();
 
@@ -62,7 +62,7 @@ public class ConfigHandler
     private static void loadConfiguration()
     {
         wussMode = config.getBoolean("wussMode", "general", false, "enables less expensive recipes");
-        permWarpMult = config.getInt("permWarpMult", "general", 2, 0, Integer.MAX_VALUE, "how much more 'expensive' permanent warp is compared to normal warp");
+        permWarpMult = config.getInt("permWarpMult", "general", 4, 0, Integer.MAX_VALUE, "how much more 'expensive' permanent warp is compared to normal warp");
         allowPermWarpRemoval = config.getBoolean("allowPermWarpRemoval", "general", true, "whether items can remove permanent warp or not");
         allowGlobalWarpEffects = config.getBoolean("allowGlobalWarpEffects", "general", true, "whether warp effects that involve the environment are triggered");
         allowWarpEffects = config.getBoolean("addWarpEffects", "general", true, "whether to add general warp effects. If false extra effects will only be seen when using Pure Tear");
@@ -91,16 +91,12 @@ public class ConfigHandler
         allowWarpEffect22 = config.getBoolean("allowFakeBoomerEffect", "warp_effects", true, "whether to allow fake creeper warp effect");
 
         if (config.hasChanged())
-        {
             config.save();
-        }
     }
 
     @SubscribeEvent
-    public void onConfigurationChangedEvent(ConfigChangedEvent.OnConfigChangedEvent event)
-    {
-        if (event.modID.equalsIgnoreCase("WarpTheory"))
-        {
+    public void onConfigurationChangedEvent(ConfigChangedEvent.OnConfigChangedEvent event) {
+        if (event.modID.equalsIgnoreCase(Constants.modID)) {
             loadConfiguration();
         }
     }

@@ -6,6 +6,7 @@ import net.minecraftforge.common.config.ConfigElement;
 import net.minecraft.client.gui.GuiScreen;
 import shukaro.warptheory.WarpTheory;
 import shukaro.warptheory.handlers.ConfigHandler;
+import shukaro.warptheory.util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
  */
 public class WarpTheoryGuiConfig extends GuiConfig {
     public WarpTheoryGuiConfig(GuiScreen parent) {
-        super(parent, getConfigObjects(), "WarpTheory", false, false, cpw.mods.fml.client.config.GuiConfig.getAbridgedConfigPath(ConfigHandler.config.toString()));
+        super(parent, getConfigObjects(), Constants.modID, false, false, cpw.mods.fml.client.config.GuiConfig.getAbridgedConfigPath(ConfigHandler.config.toString()));
     }
 
     private static List<IConfigElement> getConfigObjects() {
