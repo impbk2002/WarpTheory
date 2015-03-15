@@ -40,7 +40,7 @@ public class WarpResearch
         new WTResearchItem(Constants.ITEM_PURE_TALISMAN, new AspectList().add(Aspect.ELDRITCH, 6).add(Aspect.EXCHANGE, 3).add(Aspect.MAGIC, 3), -4, -3, 3, new ItemStack(WarpItems.itemAmulet))
                 .setPages(new ResearchPage[]{new ResearchPage(StatCollector.translateToLocal("research.warptheory.amulet")),
                         new ResearchPage((InfusionRecipe) recipes.get("PureAmulet"))})
-                .setParents(Constants.ITEM_WARPCLEANSER).setHidden().registerResearchItem();
+                .setParents(Constants.ITEM_WARPCLEANSER).setConcealed().registerResearchItem();
 
         ResearchPage[] somethingPages = new ResearchPage[WarpRecipes.meats.size() + 1];
         somethingPages[0] = new ResearchPage(StatCollector.translateToLocal("research.warptheory.warpsomething"));
