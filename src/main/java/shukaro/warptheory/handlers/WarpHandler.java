@@ -48,49 +48,49 @@ public class WarpHandler
     public static void initEvents()
     {
     	if(ConfigHandler.allowWarpEffect1)
-    		warpEvents.add(new WarpBats());
+    		warpEvents.add(new WarpBats(ConfigHandler.minimumWarpForEffect1));
     	if(ConfigHandler.allowWarpEffect2)
-    		warpEvents.add(new WarpBlink());
+    		warpEvents.add(new WarpBlink(ConfigHandler.minimumWarpForEffect2));
     	if(ConfigHandler.allowWarpEffect3)
-    		warpEvents.add(new WarpBuff("poison", 16, new PotionEffect(Potion.poison.id, 20 * 20)));
+    		warpEvents.add(new WarpBuff(ConfigHandler.minimumWarpForEffect3, "poison", new PotionEffect(Potion.poison.id, 20 * 20)));
     	if(ConfigHandler.allowWarpEffect4)
-    		warpEvents.add(new WarpBuff("nausea", 25, new PotionEffect(Potion.confusion.id, 20 * 20)));
+    		warpEvents.add(new WarpBuff(ConfigHandler.minimumWarpForEffect4, "nausea", new PotionEffect(Potion.confusion.id, 20 * 20)));
     	if(ConfigHandler.allowWarpEffect5)
-    		warpEvents.add(new WarpBuff("jump", 18, new PotionEffect(Potion.jump.id, 20 * 20, 20)));
+    		warpEvents.add(new WarpBuff(ConfigHandler.minimumWarpForEffect5, "jump", new PotionEffect(Potion.jump.id, 20 * 20, 20)));
     	if(ConfigHandler.allowWarpEffect6)
-    		warpEvents.add(new WarpBuff("blind", 43, new PotionEffect(Potion.blindness.id, 20 * 20)));
+    		warpEvents.add(new WarpBuff(ConfigHandler.minimumWarpForEffect6, "blind", new PotionEffect(Potion.blindness.id, 20 * 20)));
     	if(ConfigHandler.allowGlobalWarpEffects && ConfigHandler.allowWarpEffect7)
-    		warpEvents.add(new WarpDecay());
+    		warpEvents.add(new WarpDecay(ConfigHandler.minimumWarpForEffect7));
     	if(ConfigHandler.allowWarpEffect8)
-    		warpEvents.add(new WarpEars());
+    		warpEvents.add(new WarpEars(ConfigHandler.minimumWarpForEffect8));
     	if(ConfigHandler.allowGlobalWarpEffects && ConfigHandler.allowWarpEffect9)
-    		warpEvents.add(new WarpSwamp());
+    		warpEvents.add(new WarpSwamp(ConfigHandler.minimumWarpForEffect9));
     	if(ConfigHandler.allowWarpEffect10)
-    		warpEvents.add(new WarpTongue());
+    		warpEvents.add(new WarpTongue(ConfigHandler.minimumWarpForEffect10));
     	if(ConfigHandler.allowWarpEffect11)
-    		warpEvents.add(new WarpFriend());
+    		warpEvents.add(new WarpFriend(ConfigHandler.minimumWarpForEffect11));
     	if(ConfigHandler.allowWarpEffect12)
-    		warpEvents.add(new WarpLivestockRain());
+    		warpEvents.add(new WarpLivestockRain(ConfigHandler.minimumWarpForEffect12));
     	if(ConfigHandler.allowWarpEffect13)
-    		warpEvents.add(new WarpWind());
+    		warpEvents.add(new WarpWind(ConfigHandler.minimumWarpForEffect13));
     	if(ConfigHandler.allowWarpEffect14)
-    		warpEvents.add(new WarpChests());
+    		warpEvents.add(new WarpChests(ConfigHandler.minimumWarpForEffect14));
     	if(ConfigHandler.allowWarpEffect15)
-    		warpEvents.add(new WarpBlood());
+    		warpEvents.add(new WarpBlood(ConfigHandler.minimumWarpForEffect15));
     	if(ConfigHandler.allowWarpEffect16)
-    		warpEvents.add(new WarpAcceleration());
+    		warpEvents.add(new WarpAcceleration(ConfigHandler.minimumWarpForEffect16));
     	if(ConfigHandler.allowWarpEffect17)
-    		warpEvents.add(new WarpLightning());
+    		warpEvents.add(new WarpLightning(ConfigHandler.minimumWarpForEffect17));
     	if(ConfigHandler.allowGlobalWarpEffects && ConfigHandler.allowWarpEffect18 && ConfigHandler.allowServerKickWarpEffects)
-    		warpEvents.add(new WarpFall());
+    		warpEvents.add(new WarpFall(ConfigHandler.minimumWarpForEffect18));
     	if(ConfigHandler.allowGlobalWarpEffects && ConfigHandler.allowWarpEffect19)
-    		warpEvents.add(new WarpRain());
+    		warpEvents.add(new WarpRain(ConfigHandler.minimumWarpForEffect19));
     	if(ConfigHandler.allowGlobalWarpEffects && ConfigHandler.allowWarpEffect20)
-    		warpEvents.add(new WarpWither());
+    		warpEvents.add(new WarpWither(ConfigHandler.minimumWarpForEffect20));
     	if(ConfigHandler.allowWarpEffect21)
-    		warpEvents.add(new WarpFakeSound("fakeexplosion", "random.explode", 8));
+    		warpEvents.add(new WarpFakeSound(ConfigHandler.minimumWarpForEffect21, "fakeexplosion", "random.explode", 8));
     	if(ConfigHandler.allowWarpEffect22)
-    		warpEvents.add(new WarpFakeSoundBehind("fakecreeper", "creeper.primed", 2));
+    		warpEvents.add(new WarpFakeSoundBehind(ConfigHandler.minimumWarpForEffect22, "fakecreeper", "creeper.primed", 2));
 
         addDecayMapping(Blocks.grass, Blocks.dirt);
         addDecayMapping(Blocks.dirt, 0, Blocks.sand);

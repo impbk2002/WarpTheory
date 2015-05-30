@@ -12,16 +12,16 @@ import java.util.Collection;
 
 public class WarpBuff extends IWarpEvent
 {
+	private final int _mMinWarpLevel;
     private String name;
-    private int severity;
     private int id;
     private int duration;
     private int level;
 
-    public WarpBuff(String name, int severity, PotionEffect effect)
+    public WarpBuff(int pMinWarpLevel, String name, PotionEffect effect)
     {
+    	_mMinWarpLevel = pMinWarpLevel;
         this.name = name;
-        this.severity = severity;
         this.id = effect.getPotionID();
         this.duration = effect.getDuration();
         this.level = effect.getAmplifier();
@@ -36,7 +36,7 @@ public class WarpBuff extends IWarpEvent
     @Override
     public int getSeverity()
     {
-        return severity;
+    	return _mMinWarpLevel;
     }
 
     @Override

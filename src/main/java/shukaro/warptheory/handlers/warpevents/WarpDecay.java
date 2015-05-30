@@ -22,7 +22,12 @@ import java.util.Set;
 
 public class WarpDecay extends IWarpEvent
 {
-    public WarpDecay() { FMLCommonHandler.instance().bus().register(this); }
+	private final int _mMinWarpLevel;
+    public WarpDecay(int pMinWarpLevel) 
+    {
+    	_mMinWarpLevel = pMinWarpLevel;
+    	FMLCommonHandler.instance().bus().register(this); 
+    }
 
     @Override
     public String getName()
@@ -33,7 +38,7 @@ public class WarpDecay extends IWarpEvent
     @Override
     public int getSeverity()
     {
-        return 50;
+    	return _mMinWarpLevel;
     }
 
     @Override

@@ -24,11 +24,13 @@ import java.util.Map;
 
 public class WarpFall extends IWarpEvent
 {
+	private final int _mMinWarpLevel;
     private static Map<String, BlockCoord> originalPositions = new HashMap<String, BlockCoord>();
     private static Map<String, Long> returnTimes = new HashMap<String, Long>();
 
-    public WarpFall()
+    public WarpFall(int pMinWarpLevel)
     {
+    	_mMinWarpLevel = pMinWarpLevel;
         FMLCommonHandler.instance().bus().register(this);
     }
 
@@ -41,7 +43,7 @@ public class WarpFall extends IWarpEvent
     @Override
     public int getSeverity()
     {
-        return 36;
+    	return _mMinWarpLevel;
     }
 
     @Override

@@ -17,8 +17,10 @@ import java.util.ArrayList;
 
 public class WarpLightning extends IWarpEvent
 {
-    public WarpLightning()
+	private final int _mMinWarpLevel;
+    public WarpLightning(int pMinWarpLevel)
     {
+    	_mMinWarpLevel = pMinWarpLevel;
         FMLCommonHandler.instance().bus().register(this);
     }
 
@@ -31,7 +33,7 @@ public class WarpLightning extends IWarpEvent
     @Override
     public int getSeverity()
     {
-        return 60;
+    	return _mMinWarpLevel;
     }
 
     @Override

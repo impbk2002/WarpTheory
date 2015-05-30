@@ -14,7 +14,12 @@ import shukaro.warptheory.util.MiscHelper;
 
 public class WarpTongue extends IWarpEvent
 {
-    public WarpTongue() { MinecraftForge.EVENT_BUS.register(this); }
+	private final int _mMinWarpLevel;
+    public WarpTongue(int pMinWarpLevel)
+    {
+    	_mMinWarpLevel = pMinWarpLevel;
+    	MinecraftForge.EVENT_BUS.register(this);
+    }
 
     @Override
     public String getName()
@@ -25,7 +30,7 @@ public class WarpTongue extends IWarpEvent
     @Override
     public int getSeverity()
     {
-        return 11;
+    	return _mMinWarpLevel;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package shukaro.warptheory.handlers.warpevents;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
@@ -11,6 +12,12 @@ import shukaro.warptheory.util.FormatCodes;
 
 public class WarpRain extends IWarpEvent
 {
+	private final int _mMinWarpLevel;
+	public WarpRain(int pMinWarpLevel)
+	{ 
+		_mMinWarpLevel = pMinWarpLevel;
+	}
+	
     @Override
     public String getName()
     {
@@ -20,7 +27,7 @@ public class WarpRain extends IWarpEvent
     @Override
     public int getSeverity()
     {
-        return 12;
+    	return _mMinWarpLevel;
     }
 
     @Override

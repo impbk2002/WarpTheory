@@ -26,7 +26,12 @@ import java.util.Set;
 
 public class WarpSwamp extends IWarpEvent
 {
-    public WarpSwamp() { FMLCommonHandler.instance().bus().register(this); }
+	private final int _mMinWarpLevel;
+    public WarpSwamp(int pMinWarpLevel)
+    {
+    	_mMinWarpLevel = pMinWarpLevel;
+    	FMLCommonHandler.instance().bus().register(this);
+    }
 
     @Override
     public String getName()
@@ -37,7 +42,7 @@ public class WarpSwamp extends IWarpEvent
     @Override
     public int getSeverity()
     {
-        return 50;
+    	return _mMinWarpLevel;
     }
 
     @Override

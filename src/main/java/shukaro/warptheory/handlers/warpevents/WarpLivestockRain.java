@@ -21,7 +21,12 @@ import java.util.ArrayList;
 
 public class WarpLivestockRain extends IWarpEvent
 {
-    public WarpLivestockRain() { FMLCommonHandler.instance().bus().register(this); }
+	private final int _mMinWarpLevel;
+    public WarpLivestockRain(int pMinWarpLevel)
+    {
+    	_mMinWarpLevel = pMinWarpLevel;
+    	FMLCommonHandler.instance().bus().register(this);
+    }
 
     @Override
     public String getName()
@@ -32,7 +37,7 @@ public class WarpLivestockRain extends IWarpEvent
     @Override
     public int getSeverity()
     {
-        return 32;
+    	return _mMinWarpLevel;
     }
 
     @Override

@@ -18,7 +18,12 @@ import shukaro.warptheory.util.MiscHelper;
 
 public class WarpEars extends IWarpEvent
 {
-    public WarpEars() { MinecraftForge.EVENT_BUS.register(this); }
+	private final int _mMinWarpLevel;
+    public WarpEars(int pMinWarpLevel)
+    {
+    	_mMinWarpLevel = pMinWarpLevel;
+    	MinecraftForge.EVENT_BUS.register(this); 
+    }
 
     @Override
     public String getName()
@@ -29,7 +34,7 @@ public class WarpEars extends IWarpEvent
     @Override
     public int getSeverity()
     {
-        return 12;
+    	return _mMinWarpLevel;
     }
 
     @Override

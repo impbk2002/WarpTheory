@@ -17,7 +17,12 @@ import java.util.ArrayList;
 
 public class WarpWind extends IWarpEvent
 {
-    public WarpWind() { FMLCommonHandler.instance().bus().register(this); }
+	private final int _mMinWarpLevel;
+    public WarpWind(int pMinWarpLevel)
+    {
+    	_mMinWarpLevel = pMinWarpLevel;
+    	FMLCommonHandler.instance().bus().register(this);
+    }
 
     @Override
     public String getName()
@@ -28,7 +33,7 @@ public class WarpWind extends IWarpEvent
     @Override
     public int getSeverity()
     {
-        return 35;
+    	return _mMinWarpLevel;
     }
 
     @Override

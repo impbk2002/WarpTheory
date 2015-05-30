@@ -22,9 +22,14 @@ import java.util.Map;
 
 public class WarpBlood extends IWarpEvent
 {
+	private final int _mMinWarpLevel;
     public static Map<Integer, ArrayList<BlockCoord>> bloody = new HashMap<Integer, ArrayList<BlockCoord>>();
 
-    public WarpBlood() { FMLCommonHandler.instance().bus().register(this); }
+    public WarpBlood(int pMinWarpLevel)
+    {
+    	_mMinWarpLevel = pMinWarpLevel;
+    	FMLCommonHandler.instance().bus().register(this);
+    }
 
     @Override
     public String getName()
@@ -35,7 +40,7 @@ public class WarpBlood extends IWarpEvent
     @Override
     public int getSeverity()
     {
-        return 25;
+    	return _mMinWarpLevel;
     }
 
     @Override

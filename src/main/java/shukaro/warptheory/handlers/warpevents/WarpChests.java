@@ -20,8 +20,10 @@ import java.util.Random;
 
 public class WarpChests extends IWarpEvent
 {
-    public WarpChests()
+	private final int _mMinWarpLevel;
+    public WarpChests(int pMinWarpLevel)
     {
+    	_mMinWarpLevel = pMinWarpLevel;
         FMLCommonHandler.instance().bus().register(this);
     }
 
@@ -34,7 +36,7 @@ public class WarpChests extends IWarpEvent
     @Override
     public int getSeverity()
     {
-        return 35;
+    	return _mMinWarpLevel;
     }
 
     @Override

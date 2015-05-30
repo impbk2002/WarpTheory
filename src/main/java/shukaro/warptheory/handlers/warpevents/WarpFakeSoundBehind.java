@@ -13,20 +13,22 @@ import java.util.ArrayList;
 
 public class WarpFakeSoundBehind extends IWarpEvent
 {
-
+	private final int _mMinWarpLevel;
     private final String name;
     private final String sound;
     private int distance = 16; //approximate distance behind player in blocks to play sound
 
-    public WarpFakeSoundBehind(String name, String sound)
+    public WarpFakeSoundBehind(int pMinWarpLevel, String name, String sound)
     {
+    	_mMinWarpLevel = pMinWarpLevel;
         this.name = name;
         this.sound = sound;
         FMLCommonHandler.instance().bus().register(this);
     }
 
-    public WarpFakeSoundBehind(String name, String sound, int distance)
+    public WarpFakeSoundBehind(int pMinWarpLevel, String name, String sound, int distance)
     {
+    	_mMinWarpLevel = pMinWarpLevel;
         this.name = name;
         this.sound = sound;
         this.distance = distance;
@@ -37,7 +39,7 @@ public class WarpFakeSoundBehind extends IWarpEvent
     public String getName() { return name; }
 
     @Override
-    public int getSeverity() { return 10; }
+    public int getSeverity() { return _mMinWarpLevel; }
 
     @Override
     public boolean doEvent(World world, EntityPlayer player)
