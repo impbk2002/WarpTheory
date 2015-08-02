@@ -97,7 +97,7 @@ public class ItemPaper extends Item
                             ", " + individualWarps[2] + " " + StatCollector.translateToLocal("chat.warptheory.tempwarp") + ")"));
         }
 
-        if (!player.capabilities.isCreativeMode && WarpHandler.getTotalWarp(player) <= 10)
+        if (!player.capabilities.isCreativeMode && WarpHandler.getTotalWarp(player) > 10)
             stack.stackSize--;
 
         return stack;
