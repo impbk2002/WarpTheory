@@ -16,7 +16,6 @@ buildscript {
 }
 
 apply plugin: 'forge'
-apply plugin: 'jacoco'
 
 ext{
     configFile = file "gradle.properties"
@@ -71,12 +70,3 @@ processResources {
         exclude 'mcmod.info'
     }
 }
-
-jacocoTestReport {
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
-}
-
-check.dependsOn jacocoTestReport
