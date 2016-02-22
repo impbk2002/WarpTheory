@@ -1,4 +1,6 @@
 language: java
+sudo: false # faster builds
+
 notifications:
   email: false
 cache:
@@ -10,3 +12,7 @@ jdk:
  
 before_install:
  - chmod +x gradlew
+ - pip install --user codecov
+
+after_success:
+  - codecov
