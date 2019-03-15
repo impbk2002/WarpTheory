@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
         maven {
             name = "forge"
-            url = "http://files.minecraftforge.net/maven"
+            url = "https://gregtech.overminddl1.com/"
         }
         maven {
             name = "sonatype"
@@ -25,13 +25,14 @@ file "build.properties" withReader {
     ext.config = new ConfigSlurper().parse prop
 }
 
-version = config.mc_version + "-" + config.mod_version + "-" + config.build_number
+version = "${config.mc_version}-${config.mod_version}"
+
 
 group = "com.shukaro.warptheory"
 archivesBaseName = "WarpTheory"
 
 minecraft {
-    version = "${config.forge_version}-${config.mc_version}"
+    version = "${config.forge_version}"
     runDir = "minecraft"
 }
 
