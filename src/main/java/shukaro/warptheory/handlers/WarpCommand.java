@@ -3,6 +3,7 @@ package shukaro.warptheory.handlers;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import shukaro.warptheory.util.FormatCodes;
@@ -70,11 +71,14 @@ public class WarpCommand implements ICommand
     @Override
     public boolean canCommandSenderUseCommand(ICommandSender sender)
     {
-        if (sender != null){
+        if (sender instanceof EntityPlayerMP){
             EntityPlayer player = MiscHelper.getPlayerByName(sender.getCommandSenderName());
             return player.capabilities.isCreativeMode || MiscHelper.isOp(sender.getCommandSenderName());
         }
-        return true;
+        else
+        {
+        	return sender instanceof MinecraftServer;
+        }
     }
 
     @Override
