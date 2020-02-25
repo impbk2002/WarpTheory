@@ -181,6 +181,13 @@ public class WarpHandler
         removeWarp(player, getTotalWarp(player));
     }
 
+	//add function to remove 1 warp
+    public static void purgeWarpMinor(EntityPlayer player)
+    {
+        removeWarp(player, 1);
+    }
+
+
     public static void removeWarp(EntityPlayer player, int amount)
     {
         if (amount <= 0)

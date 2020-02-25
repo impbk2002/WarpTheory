@@ -3,6 +3,7 @@
 itemGroup.warptheory.tab=Warp Theory
 
 # << chat item effects >>
+chat.warptheory.purgeminor=You feel a little better
 chat.warptheory.purge=You've got a bad feeling about this...
 chat.warptheory.purgefail=Nothing in particular happens
 chat.warptheory.addwarp=It feels as if something strange has slithered into you...
@@ -15,12 +16,14 @@ chat.warptheory.normalwarp=Normal Warp
 chat.warptheory.tempwarp=Temporary Warp
 
 # << Item names >>
+item.warptheory.cleanserminor=Pure? Tear
 item.warptheory.cleanser.name=Pure Tear
 item.warptheory.amulet.name=Purification Talisman
 item.warptheory.something.name=Hunk of Something
 item.warptheory.paper.name=Arcane Litmus Paper
 
 # << tooltips >>
+tooltip.warptheory.cleanserminor=It's missing something...
 tooltip.warptheory.cleanser=Crunchy
 tooltip.warptheory.amulet=Purges Warp
 tooltip.warptheory.something=Probably edible...
@@ -30,6 +33,11 @@ tooltip.warptheory.paper=Reacts to Warp
 tc.research_name.warptheory.something=Hunk of Something
 tc.research_text.warptheory.something=Definitely not something pleasant
 research.warptheory.warpsomething=By chance you realized that many simple meats could be transmuted into something else if they were exposed to eldritch energy. It's... probably not a good idea to look too closely at the result.
+
+# << pure? tear >>
+tc.research_name.warptheory.cleanserminor=Pure? Tear
+tc.research_text.warptheory.cleanserminor=Magical-ish Medicine
+research.warptheory.warpcleanserminor=You've dealt with warp long enough, time to try to find a way to get rid of it.<BR>You succeeded, but the effect is miniscule. You suspect that if you had better materials, you could make a better version.
 
 # << pure tear >>
 tc.research_name.warptheory.cleanser=Pure Tear
