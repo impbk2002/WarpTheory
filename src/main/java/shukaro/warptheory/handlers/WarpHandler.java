@@ -23,6 +23,8 @@ import java.util.Random;
 
 public class WarpHandler
 {
+    private static final Random random = new Random();
+
     public static Map<String, Integer> warpNormal;
     public static Map<String, Integer> warpTemp;
     public static Map<String, Integer> warpPermanent;
@@ -188,8 +190,7 @@ public class WarpHandler
 	//warp < 50 = 0%, warp >= 150 = 100%
     public static void purgeWarpMinor(EntityPlayer player)
     {
-		Random ran = new Random(); 
-		int rn = ran.nextInt(101);
+		int rn = random.nextInt(101);
 		rn = rn-50+getTotalWarp(player);
 		if (rn >=100)
 		{
