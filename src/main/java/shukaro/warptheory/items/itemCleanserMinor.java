@@ -87,10 +87,10 @@ public class ItemCleanserMinor extends Item
     {
         if (!world.isRemote)
         {
-            if (WarpHandler.getTotalWarp(player) > 0)
-                ChatHelper.sendToPlayer(player, StatCollector.translateToLocal("chat.warptheory.purgeminor"));
-            else
-                ChatHelper.sendToPlayer(player, StatCollector.translateToLocal("chat.warptheory.purgefail"));
+            if (WarpHandler.getTotalWarp(player) == 0)
+			{
+				ChatHelper.sendToPlayer(player, StatCollector.translateToLocal("chat.warptheory.purgefail"));
+            }
             world.playSoundAtEntity(player, "game.potion.smash", 1.0f, 1.0f);
             WarpHandler.purgeWarpMinor(player);
         }

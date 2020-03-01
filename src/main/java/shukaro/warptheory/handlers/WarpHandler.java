@@ -8,15 +8,18 @@ import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.StatCollector;
 import shukaro.warptheory.WarpTheory;
 import shukaro.warptheory.handlers.warpevents.*;
 import shukaro.warptheory.util.MiscHelper;
 import shukaro.warptheory.util.NameMetaPair;
+import shukaro.warptheory.util.ChatHelper;
 import thaumcraft.api.IWarpingGear;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Random;
 
 public class WarpHandler
 {
@@ -181,12 +184,21 @@ public class WarpHandler
         removeWarp(player, getTotalWarp(player));
     }
 
-	//add function to remove 1 warp
+	//add function to remove 1 warp, chance based
+	//warp < 50 = 0%, warp >= 150 = 100%
     public static void purgeWarpMinor(EntityPlayer player)
     {
-        removeWarp(player, 1);
+		Random ran = new Random(); 
+		int rn = ran.nextInt(101);
+		rn = rn-50+getTotalWarp(player);
+		if (rn >=100)
+		{
+			removeWarp(player, 1);
+			ChatHelper.sendToPlayer(player, StatCollector.translateToLocal("chat.warptheory.purgeminor"));
+		}
+		else
+			ChatHelper.sendToPlayer(player, StatCollector.translateToLocal("chat.warptheory.purgefailed"));
     }
-
 
     public static void removeWarp(EntityPlayer player, int amount)
     {
