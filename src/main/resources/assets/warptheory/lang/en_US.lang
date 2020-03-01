@@ -17,7 +17,7 @@ chat.warptheory.normalwarp=Normal Warp
 chat.warptheory.tempwarp=Temporary Warp
 
 # << Item names >>
-item.warptheory.cleanserminor.name=Pure? Tear
+item.warptheory.cleanserminor.name=Impure Tear
 item.warptheory.cleanser.name=Pure Tear
 item.warptheory.amulet.name=Purification Talisman
 item.warptheory.something.name=Hunk of Something
