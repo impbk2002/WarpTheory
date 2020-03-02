@@ -48,11 +48,15 @@ public class ItemCleanser extends Item
         list.add(new ItemStack(id, 1, 0));
     }
 
+    protected String getIcon() {
+        return  "itemCleanser";
+    }
+    
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister reg)
     {
-        this.icon = reg.registerIcon(Constants.modID.toLowerCase(Locale.ENGLISH) + ":" + "itemCleanser");
+        this.icon = reg.registerIcon(Constants.modID.toLowerCase(Locale.ENGLISH) + ":" + getIcon());
     }
 
     @Override
@@ -81,18 +85,23 @@ public class ItemCleanser extends Item
         player.setItemInUse(stack, this.getMaxItemUseDuration(stack));
         return stack;
     }
+    
+    protected void purgeWarp(EntityPlayer player) {
+        if (WarpHandler.getTotalWarp(player) > 0)
+            ChatHelper.sendToPlayer(player, StatCollector.translateToLocal("chat.warptheory.purge"));
+        else
+            ChatHelper.sendToPlayer(player, StatCollector.translateToLocal("chat.warptheory.purgefail"));
 
+        WarpHandler.purgeWarp(player);
+    }
+    
     @Override
     public ItemStack onEaten(ItemStack stack, World world, EntityPlayer player)
     {
         if (!world.isRemote)
         {
-            if (WarpHandler.getTotalWarp(player) > 0)
-                ChatHelper.sendToPlayer(player, StatCollector.translateToLocal("chat.warptheory.purge"));
-            else
-                ChatHelper.sendToPlayer(player, StatCollector.translateToLocal("chat.warptheory.purgefail"));
             world.playSoundAtEntity(player, "game.potion.smash", 1.0f, 1.0f);
-            WarpHandler.purgeWarp(player);
+            purgeWarp(player);
         }
 
         if (!player.capabilities.isCreativeMode)
@@ -113,10 +122,14 @@ public class ItemCleanser extends Item
         return EnumAction.eat;
     }
 
+    protected String getToolTip() {
+        return "tooltip.warptheory.cleanser";
+    }
+
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, EntityPlayer player, List infoList, boolean advanced)
     {
-        infoList.add(FormatCodes.DarkGrey.code + FormatCodes.Italic.code + StatCollector.translateToLocal("tooltip.warptheory.cleanser"));
+        infoList.add(FormatCodes.DarkGrey.code + FormatCodes.Italic.code + StatCollector.translateToLocal(getToolTip()));
     }
 }

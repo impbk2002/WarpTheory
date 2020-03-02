@@ -32,6 +32,12 @@ public class WarpResearch
 
         FakeResearch.newFake("FAKEELDMAJOR", "ELDRITCHMAJOR", "ELDRITCH", 0, -3).registerResearchItem();
 
+        //attempt to make lesser pure tear
+        new WTResearchItem(Constants.ITEM_WARPCLEANSERMINOR, new AspectList().add(Aspect.ELDRITCH, 3).add(Aspect.EXCHANGE, 1), -1, -2, 2, new ItemStack(WarpItems.itemCleanserMinor))
+                .setPages(new ResearchPage[]{new ResearchPage(StatCollector.translateToLocal("research.warptheory.warpcleanserminor")),
+                        new ResearchPage((InfusionRecipe) recipes.get("PureTearMinor"))})
+                .setParents("ELDRITCHMAJOR", Constants.ITEM_LITMUS, "FAKEELDMAJOR").setHidden().setItemTriggers(ItemApi.getItem("itemSanitySoap",0)).registerResearchItem();		
+
         new WTResearchItem(Constants.ITEM_WARPCLEANSER, new AspectList().add(Aspect.ELDRITCH, 6).add(Aspect.EXCHANGE, 3), -3, -2, 2, new ItemStack(WarpItems.itemCleanser))
                 .setPages(new ResearchPage[]{new ResearchPage(StatCollector.translateToLocal("research.warptheory.warpcleanser")),
                         new ResearchPage((InfusionRecipe) recipes.get("PureTear"))})
@@ -42,7 +48,7 @@ public class WarpResearch
                         new ResearchPage((InfusionRecipe) recipes.get("PureAmulet"))})
                 .setParents(Constants.ITEM_WARPCLEANSER).setConcealed().registerResearchItem();
 
-        ResearchPage[] somethingPages = new ResearchPage[WarpRecipes.meats.size() + 1];
+		ResearchPage[] somethingPages = new ResearchPage[WarpRecipes.meats.size() + 1];
         somethingPages[0] = new ResearchPage(StatCollector.translateToLocal("research.warptheory.warpsomething"));
         int i = 1;
         for (ItemStack meat : WarpRecipes.meats) {
