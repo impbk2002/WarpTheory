@@ -22,8 +22,9 @@ import java.util.List;
 import java.util.Locale;
 
 public class ItemCleanser extends Item
-{
-    private IIcon icon;
+{   
+    private IIcon icon1;
+    private IIcon icon2;
 
     public ItemCleanser()
     {
@@ -32,6 +33,7 @@ public class ItemCleanser extends Item
         this.setMaxStackSize(16);
         this.setMaxDamage(0);
         this.setCreativeTab(WarpTheory.mainTab);
+        System.out.println("You were expecting a normal log, but it was me, Dio!");
         this.setUnlocalizedName(Constants.ITEM_WARPCLEANSER);
     }
 
@@ -51,12 +53,12 @@ public class ItemCleanser extends Item
     protected String getIcon() {
         return  "itemCleanser";
     }
-    
-    @Override
+
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister reg)
-    {
-        this.icon = reg.registerIcon(Constants.modID.toLowerCase(Locale.ENGLISH) + ":" + getIcon());
+    {   
+        this.icon1 = reg.registerIcon(Constants.modID.toLowerCase(Locale.ENGLISH) + ":itemCleanser"); //that's what renders inHand apparently
+        this.icon2 = reg.registerIcon(Constants.modID.toLowerCase(Locale.ENGLISH) + ":itemCleanserOpaque");
     }
 
     @Override
@@ -70,13 +72,20 @@ public class ItemCleanser extends Item
     @SideOnly(Side.CLIENT)
     public IIcon getIconFromDamage(int meta)
     {
-        return this.icon;
+        return this.icon1;
     }
 
+
     @Override
+    @SideOnly(Side.CLIENT)
     public IIcon getIcon(ItemStack stack, int renderPass, EntityPlayer player, ItemStack usingItem, int useRemaining)
-    {
-        return this.icon;
+    {   
+        return icon2;
+    }
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean requiresMultipleRenderPasses() {
+        return true;
     }
 
     @Override
