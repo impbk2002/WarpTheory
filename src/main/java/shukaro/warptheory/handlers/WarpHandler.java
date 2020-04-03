@@ -28,6 +28,7 @@ public class WarpHandler
     public static Map<String, Integer> warpNormal;
     public static Map<String, Integer> warpTemp;
     public static Map<String, Integer> warpPermanent;
+    public static Map<String, Integer> warpCount;
     public static boolean wuss = false;
     public static int potionWarpWardID = -1;
 
@@ -157,6 +158,7 @@ public class WarpHandler
             warpNormal = (Map<String, Integer>)pK.getClass().getDeclaredField("warpSticky").get(pK);
             warpTemp = (Map<String, Integer>)pK.getClass().getField("warpTemp").get(pK);
             warpPermanent = (Map<String, Integer>)pK.getClass().getField("warp").get(pK);
+            warpCount = (Map<String, Integer>)pK.getClass().getField("warpCount").get(pK);
         }
         catch (Exception e)
         {
@@ -211,6 +213,12 @@ public class WarpHandler
             int wp = warpPermanent != null ? warpPermanent.get(name) : 0;
             int wn = warpNormal.get(name);
             int wt = warpTemp.get(name);
+            // reset the warp counter so
+            // 1) if partial warp reduction, reset the counter so vanilla TC warp events would fire
+            //    the same behavior can be observed on TC sanitizing soap
+            // 2) if total warp reduction, the counter would be reduced to 0, so vanilla TC warp events would
+            //    no longer fire
+            warpCount.put(name, wp + wn + wt - amount);
             if (amount <= wt)
             {
                 warpTemp.put(name, wt - amount);
