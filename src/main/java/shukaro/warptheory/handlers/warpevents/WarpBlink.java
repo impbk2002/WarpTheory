@@ -61,13 +61,13 @@ public class WarpBlink extends IWarpEvent
                     int targetY = (int)player.posY + e.world.rand.nextInt(16) - e.world.rand.nextInt(16);
                     int targetZ = (int)player.posZ + e.world.rand.nextInt(16) - e.world.rand.nextInt(16);
                     BlockCoord target = new BlockCoord(targetX, targetY, targetZ);
-                    if (target.isAir(e.world) && target.copy().offset(1).isAir(e.world) && !target.copy().offset(0).isAir(e.world))
+                    if (target.isAir(e.world) && target.copy().offset(1).isAir(e.world) && target.copy().offset(0).isTopSolid(e.world))
                     {
-                        player.rotationPitch = (e.world.rand.nextInt(90) + e.world.rand.nextFloat()) - (e.world.rand.nextInt(90) + e.world.rand.nextFloat());
+                        player.rotationPitch = (e.world.rand.nextInt(45) + e.world.rand.nextFloat()) - (e.world.rand.nextInt(45) + e.world.rand.nextFloat());
                         player.rotationYaw = (e.world.rand.nextInt(360) + e.world.rand.nextFloat()) - (e.world.rand.nextInt(360) + e.world.rand.nextFloat());
-                        double dX = target.x + e.world.rand.nextDouble();
-                        double dY = target.y + e.world.rand.nextDouble();
-                        double dZ = target.z + e.world.rand.nextDouble();
+                        double dX = target.x + 0.5;
+                        double dY = target.y + 0.01;
+                        double dZ = target.z + 0.5;
                         player.setPositionAndUpdate(dX, dY, dZ);
                         PacketDispatcher.sendBlinkEvent(e.world, dX, dY, dZ);
                         e.world.playSoundEffect(dX, dY, dZ, "mob.endermen.portal", 1.0F, 1.0F);
