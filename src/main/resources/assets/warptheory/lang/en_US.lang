@@ -3,8 +3,10 @@
 itemGroup.warptheory.tab=Warp Theory
 
 # << chat item effects >>
+chat.warptheory.purgeminor=You feel a little better
 chat.warptheory.purge=You've got a bad feeling about this...
 chat.warptheory.purgefail=Nothing in particular happens
+chat.warptheory.purgefailed=It doesn't seem to have worked
 chat.warptheory.addwarp=It feels as if something strange has slithered into you...
 chat.warptheory.minorwarp=There's no reaction
 chat.warptheory.averagewarp=The paper turns a sickly color
@@ -15,12 +17,14 @@ chat.warptheory.normalwarp=Normal Warp
 chat.warptheory.tempwarp=Temporary Warp
 
 # << Item names >>
+item.warptheory.cleanserminor.name=Impure Tear
 item.warptheory.cleanser.name=Pure Tear
 item.warptheory.amulet.name=Purification Talisman
 item.warptheory.something.name=Hunk of Something
 item.warptheory.paper.name=Arcane Litmus Paper
 
 # << tooltips >>
+tooltip.warptheory.cleanserminor=It's missing something...
 tooltip.warptheory.cleanser=Crunchy
 tooltip.warptheory.amulet=Purges Warp
 tooltip.warptheory.something=Probably edible...
@@ -30,6 +34,11 @@ tooltip.warptheory.paper=Reacts to Warp
 tc.research_name.warptheory.something=Hunk of Something
 tc.research_text.warptheory.something=Definitely not something pleasant
 research.warptheory.warpsomething=By chance you realized that many simple meats could be transmuted into something else if they were exposed to eldritch energy. It's... probably not a good idea to look too closely at the result.
+
+# << pure? tear >>
+tc.research_name.warptheory.cleanserminor=Pure? Tear
+tc.research_text.warptheory.cleanserminor=Magical-ish Medicine
+research.warptheory.warpcleanserminor=You've dealt with warp long enough, time to try to find a way to get rid of it. Perhaps if you try to use opposites together?<BR>You succeeded, but the effect is miniscule and doesn't always work. It does seem to react to warp, so maybe having more will cause it to be more likely to work? (You need 50 warp for it to have a 1% chance of working. At 150, the chance is 100%)<BR>You suspect that if you had better materials, you could make a better version.
 
 # << pure tear >>
 tc.research_name.warptheory.cleanser=Pure Tear

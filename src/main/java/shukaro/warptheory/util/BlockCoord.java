@@ -6,6 +6,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import net.minecraftforge.common.util.ForgeDirection;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -375,6 +377,8 @@ public class BlockCoord implements Comparable
     }
 
     public boolean isAir(IBlockAccess access) { return access.isAirBlock(this.x, this.y, this.z); }
+
+    public boolean isTopSolid(IBlockAccess access) { return access.isSideSolid(this.x, this.y, this.z, ForgeDirection.UP, false); }
 
     public ItemStack getStack(IBlockAccess access) { return new ItemStack(access.getBlock(this.x, this.y, this.z), 1, access.getBlockMetadata(this.x, this.y, this.z)); }
 

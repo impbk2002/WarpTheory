@@ -8,21 +8,27 @@ import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.StatCollector;
 import shukaro.warptheory.WarpTheory;
 import shukaro.warptheory.handlers.warpevents.*;
 import shukaro.warptheory.util.MiscHelper;
 import shukaro.warptheory.util.NameMetaPair;
+import shukaro.warptheory.util.ChatHelper;
 import thaumcraft.api.IWarpingGear;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Random;
 
 public class WarpHandler
 {
+    private static final Random random = new Random();
+
     public static Map<String, Integer> warpNormal;
     public static Map<String, Integer> warpTemp;
     public static Map<String, Integer> warpPermanent;
+    public static Map<String, Integer> warpCount;
     public static boolean wuss = false;
     public static int potionWarpWardID = -1;
 
@@ -152,6 +158,7 @@ public class WarpHandler
             warpNormal = (Map<String, Integer>)pK.getClass().getDeclaredField("warpSticky").get(pK);
             warpTemp = (Map<String, Integer>)pK.getClass().getField("warpTemp").get(pK);
             warpPermanent = (Map<String, Integer>)pK.getClass().getField("warp").get(pK);
+            warpCount = (Map<String, Integer>)pK.getClass().getField("warpCount").get(pK);
         }
         catch (Exception e)
         {
@@ -181,6 +188,21 @@ public class WarpHandler
         removeWarp(player, getTotalWarp(player));
     }
 
+	//add function to remove 1 warp, chance based
+	//warp < 50 = 0%, warp >= 150 = 100%
+    public static void purgeWarpMinor(EntityPlayer player)
+    {
+		int rn = random.nextInt(101);
+		rn = rn-50+getTotalWarp(player);
+		if (rn >=100)
+		{
+			removeWarp(player, 1);
+			ChatHelper.sendToPlayer(player, StatCollector.translateToLocal("chat.warptheory.purgeminor"));
+		}
+		else
+			ChatHelper.sendToPlayer(player, StatCollector.translateToLocal("chat.warptheory.purgefailed"));
+    }
+
     public static void removeWarp(EntityPlayer player, int amount)
     {
         if (amount <= 0)
@@ -191,6 +213,12 @@ public class WarpHandler
             int wp = warpPermanent != null ? warpPermanent.get(name) : 0;
             int wn = warpNormal.get(name);
             int wt = warpTemp.get(name);
+            // reset the warp counter so
+            // 1) if partial warp reduction, reset the counter so vanilla TC warp events would fire
+            //    the same behavior can be observed on TC sanitizing soap
+            // 2) if total warp reduction, the counter would be reduced to 0, so vanilla TC warp events would
+            //    no longer fire
+            warpCount.put(name, wp + wn + wt - amount);
             if (amount <= wt)
             {
                 warpTemp.put(name, wt - amount);

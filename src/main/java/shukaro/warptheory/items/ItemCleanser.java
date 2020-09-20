@@ -22,8 +22,9 @@ import java.util.List;
 import java.util.Locale;
 
 public class ItemCleanser extends Item
-{
-    private IIcon icon;
+{   
+    private IIcon icon1;
+    private IIcon icon2;
 
     public ItemCleanser()
     {
@@ -32,6 +33,7 @@ public class ItemCleanser extends Item
         this.setMaxStackSize(16);
         this.setMaxDamage(0);
         this.setCreativeTab(WarpTheory.mainTab);
+        System.out.println("You were expecting a normal log, but it was me, Dio!");
         this.setUnlocalizedName(Constants.ITEM_WARPCLEANSER);
     }
 
@@ -48,11 +50,15 @@ public class ItemCleanser extends Item
         list.add(new ItemStack(id, 1, 0));
     }
 
-    @Override
+    protected String getIcon() {
+        return  "itemCleanser";
+    }
+
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister reg)
-    {
-        this.icon = reg.registerIcon(Constants.modID.toLowerCase(Locale.ENGLISH) + ":" + "itemCleanser");
+    {   
+        this.icon1 = reg.registerIcon(Constants.modID.toLowerCase(Locale.ENGLISH) + ":itemCleanser"); //that's what renders inHand apparently
+        this.icon2 = reg.registerIcon(Constants.modID.toLowerCase(Locale.ENGLISH) + ":itemCleanserOpaque");
     }
 
     @Override
@@ -66,13 +72,20 @@ public class ItemCleanser extends Item
     @SideOnly(Side.CLIENT)
     public IIcon getIconFromDamage(int meta)
     {
-        return this.icon;
+        return this.icon1;
     }
 
+
     @Override
+    @SideOnly(Side.CLIENT)
     public IIcon getIcon(ItemStack stack, int renderPass, EntityPlayer player, ItemStack usingItem, int useRemaining)
-    {
-        return this.icon;
+    {   
+        return icon2;
+    }
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean requiresMultipleRenderPasses() {
+        return true;
     }
 
     @Override
@@ -81,18 +94,23 @@ public class ItemCleanser extends Item
         player.setItemInUse(stack, this.getMaxItemUseDuration(stack));
         return stack;
     }
+    
+    protected void purgeWarp(EntityPlayer player) {
+        if (WarpHandler.getTotalWarp(player) > 0)
+            ChatHelper.sendToPlayer(player, StatCollector.translateToLocal("chat.warptheory.purge"));
+        else
+            ChatHelper.sendToPlayer(player, StatCollector.translateToLocal("chat.warptheory.purgefail"));
 
+        WarpHandler.purgeWarp(player);
+    }
+    
     @Override
     public ItemStack onEaten(ItemStack stack, World world, EntityPlayer player)
     {
         if (!world.isRemote)
         {
-            if (WarpHandler.getTotalWarp(player) > 0)
-                ChatHelper.sendToPlayer(player, StatCollector.translateToLocal("chat.warptheory.purge"));
-            else
-                ChatHelper.sendToPlayer(player, StatCollector.translateToLocal("chat.warptheory.purgefail"));
             world.playSoundAtEntity(player, "game.potion.smash", 1.0f, 1.0f);
-            WarpHandler.purgeWarp(player);
+            purgeWarp(player);
         }
 
         if (!player.capabilities.isCreativeMode)
@@ -113,10 +131,14 @@ public class ItemCleanser extends Item
         return EnumAction.eat;
     }
 
+    protected String getToolTip() {
+        return "tooltip.warptheory.cleanser";
+    }
+
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, EntityPlayer player, List infoList, boolean advanced)
     {
-        infoList.add(FormatCodes.DarkGrey.code + FormatCodes.Italic.code + StatCollector.translateToLocal("tooltip.warptheory.cleanser"));
+        infoList.add(FormatCodes.DarkGrey.code + FormatCodes.Italic.code + StatCollector.translateToLocal(getToolTip()));
     }
 }
