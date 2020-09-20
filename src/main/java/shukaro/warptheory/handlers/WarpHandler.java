@@ -188,21 +188,18 @@ public class WarpHandler
         removeWarp(player, getTotalWarp(player));
     }
 
-	//add function to remove 1 warp, chance based
-	//warp < 50 = 0%, warp >= 150 = 100%
+	//add function to remove 5 warp, only at 50+
     public static void purgeWarpMinor(EntityPlayer player)
     {
-		int rn = random.nextInt(101);
-		rn = rn-50+getTotalWarp(player);
-		if (rn >=100)
+		if getTotalWarp(player) >=50)
 		{
-			removeWarp(player, 1);
+			removeWarp(player, 5);
 			ChatHelper.sendToPlayer(player, StatCollector.translateToLocal("chat.warptheory.purgeminor"));
 		}
 		else
 			ChatHelper.sendToPlayer(player, StatCollector.translateToLocal("chat.warptheory.purgefailed"));
     }
-
+	
     public static void removeWarp(EntityPlayer player, int amount)
     {
         if (amount <= 0)
