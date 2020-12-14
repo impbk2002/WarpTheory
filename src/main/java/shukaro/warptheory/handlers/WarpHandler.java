@@ -191,7 +191,8 @@ public class WarpHandler
 	//add function to remove 5 warp, only at 50+
     public static void purgeWarpMinor(EntityPlayer player)
     {
-		if (getTotalWarp(player) >=50)
+        int[] warp = getIndividualWarps(player);
+        if (warp[0] + warp[1] + warp[2] >= 50)
 		{
 			removeWarp(player, 5);
 			ChatHelper.sendToPlayer(player, StatCollector.translateToLocal("chat.warptheory.purgeminor"));
