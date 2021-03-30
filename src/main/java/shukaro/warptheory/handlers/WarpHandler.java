@@ -3,13 +3,15 @@ package shukaro.warptheory.handlers;
 import baubles.api.BaublesApi;
 import gnu.trove.map.hash.THashMap;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.StatCollector;
-import shukaro.warptheory.WarpTheory;
 import shukaro.warptheory.handlers.warpevents.*;
 import shukaro.warptheory.util.MiscHelper;
 import shukaro.warptheory.util.NameMetaPair;
@@ -18,20 +20,17 @@ import thaumcraft.api.IWarpingGear;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
+import java.util.UUID;
+
+import thaumcraft.common.Thaumcraft;
+import thaumcraft.common.lib.research.PlayerKnowledge;
 
 public class WarpHandler
 {
-    private static final Random random = new Random();
-
-    public static Map<String, Integer> warpNormal;
-    public static Map<String, Integer> warpTemp;
-    public static Map<String, Integer> warpPermanent;
-    public static Map<String, Integer> warpCount;
-    public static boolean wuss = false;
-    public static int potionWarpWardID = -1;
-
+	public static final PlayerKnowledge Knowledge = Thaumcraft.proxy.getPlayerKnowledge();
+	private static HashMap<UUID, Integer> Unavoidable = new HashMap<UUID, Integer>();
     public static ArrayList<IWarpEvent> warpEvents = new ArrayList<IWarpEvent>();
 
     public static Map<NameMetaPair, NameMetaPair> decayMappings = new THashMap<NameMetaPair, NameMetaPair>();
@@ -137,54 +136,10 @@ public class WarpHandler
         addDecayMapping(Blocks.obsidian, Blocks.cobblestone);
     }
 
-    @SuppressWarnings("unchecked")
-    public static boolean tcReflect()
-    {
-        try
-        {
-            wuss = Class.forName("thaumcraft.common.config.Config").getField("wuss").getBoolean(null);
-            potionWarpWardID = Class.forName("thaumcraft.common.config.Config").getField("potionWarpWardID").getInt(null);
-        }
-        catch (Exception e)
-        {
-            WarpTheory.logger.warn("Could not reflect into thaumcraft.common.Config to get config settings");
-            e.printStackTrace();
-        }
-        try
-        {
-            Class tc = Class.forName("thaumcraft.common.Thaumcraft");
-            Object proxy = tc.getField("proxy").get(null);
-            Object pK = proxy.getClass().getField("playerKnowledge").get(proxy);
-            warpNormal = (Map<String, Integer>)pK.getClass().getDeclaredField("warpSticky").get(pK);
-            warpTemp = (Map<String, Integer>)pK.getClass().getField("warpTemp").get(pK);
-            warpPermanent = (Map<String, Integer>)pK.getClass().getField("warp").get(pK);
-            warpCount = (Map<String, Integer>)pK.getClass().getField("warpCount").get(pK);
-        }
-        catch (Exception e)
-        {
-            WarpTheory.logger.warn("Could not reflect into thaumcraft.common.Thaumcraft to get warpNormal mappings, attempting older reflection");
-            e.printStackTrace();
-            try
-            {
-                Class tc = Class.forName("thaumcraft.common.Thaumcraft");
-                Object proxy = tc.getField("proxy").get(null);
-                Object pK = proxy.getClass().getField("playerKnowledge").get(proxy);
-                warpNormal = (Map<String, Integer>)pK.getClass().getDeclaredField("warp").get(pK);
-                warpTemp = (Map<String, Integer>)pK.getClass().getField("warpTemp").get(pK);
-            }
-            catch (Exception x)
-            {
-                WarpTheory.logger.warn("Failed to reflect into thaumcraft.common.Thaumcraft to get warpNormal mapping");
-                e.printStackTrace();
-                return false;
-            }
-        }
-        return true;
-    }
-
     public static void purgeWarp(EntityPlayer player)
     {
-        queueMultipleEvents(player, getTotalWarp(player));
+        int count = queueMultipleEvents(player, getTotalWarp(player));
+        addUnavoidableCount(player, count);
         removeWarp(player, getTotalWarp(player));
     }
 
@@ -201,89 +156,67 @@ public class WarpHandler
 			ChatHelper.sendToPlayer(player, StatCollector.translateToLocal("chat.warptheory.purgefailed"));
     }
 	
-    public static void removeWarp(EntityPlayer player, int amount)
-    {
-        if (amount <= 0)
-            return;
-        if ((warpNormal != null && warpTemp != null) || tcReflect())
-        {
-            String name = player.getDisplayName();
-            int wp = warpPermanent != null ? warpPermanent.get(name) : 0;
-            int wn = warpNormal.get(name);
-            int wt = warpTemp.get(name);
-            // reset the warp counter so
-            // 1) if partial warp reduction, reset the counter so vanilla TC warp events would fire
-            //    the same behavior can be observed on TC sanitizing soap
-            // 2) if total warp reduction, the counter would be reduced to 0, so vanilla TC warp events would
-            //    no longer fire
-            warpCount.put(name, wp + wn + wt - amount);
-            if (amount <= wt)
-            {
-                warpTemp.put(name, wt - amount);
-                return;
-            }
-            else
-            {
-                warpTemp.put(name, 0);
-                amount -= wt;
-            }
-            if (amount <= wn)
-            {
-                warpNormal.put(name, wn - amount);
-                return;
-            }
-            else
-            {
-                warpNormal.put(name, 0);
-                amount -= wn;
-            }
-            if (ConfigHandler.allowPermWarpRemoval)
-            {
-                if ((int)Math.ceil(amount / ConfigHandler.permWarpMult) <= wp)
-                    warpPermanent.put(name, wp - (int)Math.ceil(amount / ConfigHandler.permWarpMult));
-                else
-                    warpPermanent.put(name, 0);
-            }
-        }
-    }
+	public static void removeWarp(EntityPlayer player, int amount) {
+		if (amount <= 0)
+			return;
+		String name = player.getDisplayName();
+		int wp = Knowledge.getWarpPerm(name);
+		int wn = Knowledge.getWarpSticky(name);
+		int wt = Knowledge.getWarpTemp(name);
+		// reset the warp counter so
+		// 1) if partial warp reduction, reset the counter so vanilla TC warp events
+		// would fire
+		// the same behavior can be observed on TC sanitizing soap
+		// 2) if total warp reduction, the counter would be reduced to 0, so vanilla TC
+		// warp events would
+		// no longer fire
+		Knowledge.setWarpCounter(name, wp + wn + wt - amount);
 
-    public static int getTotalWarp(EntityPlayer player)
+		Knowledge.addWarpTemp(name, -amount);
+		amount -= wt;
+		if (amount <= 0)
+			return;
+
+		Knowledge.addWarpSticky(name, -amount);
+		amount -= wn;
+		if (amount <= 0)
+			return;
+
+		if (ConfigHandler.allowPermWarpRemoval) {
+			amount = (int) Math.ceil(amount / ConfigHandler.permWarpMult);
+			Knowledge.addWarpPerm(name, -amount);
+		}
+	}
+
+    public static final int getTotalWarp(EntityPlayer player)
     {
-        if (player == null)
-            return 0;
-        if ((warpNormal != null && warpTemp != null) || tcReflect())
-        {
-            return ((warpPermanent != null && warpPermanent.get(player.getDisplayName()) != null) ? warpPermanent.get(player.getDisplayName()) : 0) * ConfigHandler.permWarpMult +
-                    (warpNormal.get(player.getDisplayName()) != null ? warpNormal.get(player.getDisplayName()) : 0) +
-                    (warpTemp.get(player.getDisplayName()) != null ? warpTemp.get(player.getDisplayName()) : 0) +
-                    getWarpFromGear(player);
-        }
-        return 0;
+    	String name = player.getDisplayName();
+    	int innerWarp = Knowledge.getWarpTotal(name);
+    	int extraPerm = Knowledge.getWarpPerm(name) * (int) Math.max(0, ConfigHandler.permWarpMult - 1);
+    	int outerWarp = getWarpFromGear(player);
+    	return innerWarp+extraPerm+outerWarp;
     }
 
     public static int[] getIndividualWarps(EntityPlayer player)
     {
-        int[] totals = new int[3];
-        if ((warpNormal != null && warpTemp != null) || tcReflect())
-        {
-            totals[0] = warpPermanent != null ? warpPermanent.get(player.getDisplayName()) : 0;
-            totals[1] = warpNormal.get(player.getDisplayName());
-            totals[2] = warpTemp.get(player.getDisplayName());
-        }
+    	String userName = player.getDisplayName();
+        int[] totals = new int[] { Knowledge.getWarpPerm(userName), Knowledge.getWarpSticky(userName), Knowledge.getWarpTemp(userName) };
         return totals;
     }
 
     public static int queueMultipleEvents(EntityPlayer player, int amount)
     {
         int w = amount;
+        int count = 0;
         while (w > 0)
         {
             IWarpEvent event = queueOneEvent(player, w);
             if (event == null)
                 return w;
             w -= event.getCost();
+            count+=1;
         }
-        return w;
+        return count;
     }
 
     public static IWarpEvent queueOneEvent(EntityPlayer player, int maxSeverity)
@@ -306,22 +239,24 @@ public class WarpHandler
         return null;
     }
 
-    public static int getWarpFromGear(EntityPlayer player)
+    public static final int getWarpFromGear(EntityPlayer player)
     {
-        int w = 0;
-        if (player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() instanceof IWarpingGear)
-            w += ((IWarpingGear)player.getCurrentEquippedItem().getItem()).getWarp(player.getCurrentEquippedItem(), player);
+        int w = getFinalWarp(player.getCurrentEquippedItem(), player);
+        for (int a = 0; a < 4; a++)
+          w += getFinalWarp(player.inventory.armorItemInSlot(a), player); 
         IInventory baubles = BaublesApi.getBaubles(player);
         for (int i = 0; i < 4; i++)
-        {
-            if (player.inventory.getStackInSlot(i) != null && player.inventory.getStackInSlot(i).getItem() instanceof IWarpingGear)
-                w += ((IWarpingGear)player.inventory.getStackInSlot(i).getItem()).getWarp(player.inventory.getStackInSlot(i), player);
-            if (baubles != null && baubles.getStackInSlot(i) != null && baubles.getStackInSlot(i).getItem() instanceof IWarpingGear)
-                w += ((IWarpingGear)baubles.getStackInSlot(i).getItem()).getWarp(baubles.getStackInSlot(i), player);
-        }
+          w += getFinalWarp(baubles.getStackInSlot(i), player); 
         return w;
     }
 
+	public static final int getFinalWarp(ItemStack stack, EntityPlayer player) {
+		if (stack == null || !(stack.getItem() instanceof IWarpingGear))
+			return 0;
+		IWarpingGear armor = (IWarpingGear) stack.getItem();
+		return armor.getWarp(stack, player);
+	}
+	
     public static IWarpEvent getEventFromName(String name)
     {
         for (IWarpEvent event : warpEvents)
@@ -364,5 +299,27 @@ public class WarpHandler
             return getEventFromName(todo);
         }
         return null;
+    }
+    
+    public static void setUnavoidableCount(EntityPlayer player, int count) {
+    	if(ConfigHandler.disableRebound) return;
+    	UUID uuid = EntityPlayer.func_146094_a(player.getGameProfile());
+    	Unavoidable.put(uuid, Math.max(0,count));
+    }
+    
+    public static void addUnavoidableCount(EntityPlayer player, int count) {
+    	if(ConfigHandler.disableRebound) return;
+    	UUID uuid = EntityPlayer.func_146094_a(player.getGameProfile());
+    	count = Math.max(0,count + Unavoidable.get(uuid));
+    	Unavoidable.put(uuid, count);
+    }
+    
+    public static int getUnavoidableCount(EntityPlayer player) {
+    	if(ConfigHandler.disableRebound) return 0;
+    	UUID uuid = EntityPlayer.func_146094_a(player.getGameProfile());
+    	if(!Unavoidable.containsKey(uuid)) {
+    		Unavoidable.put(uuid, 0);
+    	}
+    	return Unavoidable.get(uuid);
     }
 }

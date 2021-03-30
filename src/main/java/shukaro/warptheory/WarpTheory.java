@@ -1,6 +1,5 @@
 package shukaro.warptheory;
 
-import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
@@ -8,7 +7,6 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.StatCollector;
@@ -34,7 +32,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 
 @Mod(modid = Constants.modID, name = Constants.modName, version = Constants.modVersion, guiFactory = "shukaro.warptheory.gui.GuiFactory",
-        dependencies = "required-after:Forge@[10.13.2,);required-after:Baubles;required-after:Thaumcraft")
+        dependencies = "required-after:Forge@[10.13.2,);required-after:Baubles;required-after:Thaumcraft@[4.2.3.5,);")
 public class WarpTheory {
     @SidedProxy(clientSide = "shukaro.warptheory.net.ClientProxy", serverSide = "shukaro.warptheory.net.CommonProxy")
     public static CommonProxy proxy;
@@ -92,7 +90,6 @@ public class WarpTheory {
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent evt) {
-        WarpHandler.tcReflect();
         WarpResearch.init();
     }
 }

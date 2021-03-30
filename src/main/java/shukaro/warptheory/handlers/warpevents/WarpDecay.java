@@ -44,6 +44,9 @@ public class WarpDecay extends IWarpEvent
     @Override
     public boolean canDo(EntityPlayer player)
     {
+    	if(!super.canDo(player)) {
+    		return false;
+    	}
         for (String n : (Set<String>)MiscHelper.getWarpTag(player).func_150296_c())
         {
             if (n.startsWith("biome") && !n.equals(getName()))
