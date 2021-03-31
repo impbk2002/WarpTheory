@@ -156,7 +156,8 @@ public class WarpHandler
 			ChatHelper.sendToPlayer(player, StatCollector.translateToLocal("chat.warptheory.purgefailed"));
     }
 	
-	public static void removeWarp(EntityPlayer player, int amount) {
+	public static void removeWarp(EntityPlayer player, int amount)
+    {
 		if (amount <= 0)
 			return;
 		String name = player.getDisplayName();
@@ -188,13 +189,13 @@ public class WarpHandler
 		}
 	}
 
-    public static final int getTotalWarp(EntityPlayer player)
+    public static int getTotalWarp(EntityPlayer player)
     {
     	String name = player.getDisplayName();
     	int innerWarp = Knowledge.getWarpTotal(name);
     	int extraPerm = Knowledge.getWarpPerm(name) * (int) Math.max(0, ConfigHandler.permWarpMult - 1);
     	int outerWarp = getWarpFromGear(player);
-    	return innerWarp+extraPerm+outerWarp;
+    	return innerWarp + extraPerm + outerWarp;
     }
 
     public static int[] getIndividualWarps(EntityPlayer player)
@@ -239,7 +240,7 @@ public class WarpHandler
         return null;
     }
 
-    public static final int getWarpFromGear(EntityPlayer player)
+    public static int getWarpFromGear(EntityPlayer player)
     {
         int w = getFinalWarp(player.getCurrentEquippedItem(), player);
         for (int a = 0; a < 4; a++)
@@ -250,7 +251,8 @@ public class WarpHandler
         return w;
     }
 
-	public static final int getFinalWarp(ItemStack stack, EntityPlayer player) {
+	public static int getFinalWarp(ItemStack stack, EntityPlayer player)
+    {
 		if (stack == null || !(stack.getItem() instanceof IWarpingGear))
 			return 0;
 		IWarpingGear armor = (IWarpingGear) stack.getItem();
@@ -301,25 +303,30 @@ public class WarpHandler
         return null;
     }
     
-    public static void setUnavoidableCount(EntityPlayer player, int count) {
-    	if(ConfigHandler.disableRebound) return;
+    public static void setUnavoidableCount(EntityPlayer player, int count)
+    {
+    	if(ConfigHandler.disableRebound)
+    		return;
     	UUID uuid = EntityPlayer.func_146094_a(player.getGameProfile());
     	Unavoidable.put(uuid, Math.max(0,count));
     }
     
-    public static void addUnavoidableCount(EntityPlayer player, int count) {
-    	if(ConfigHandler.disableRebound) return;
+    public static void addUnavoidableCount(EntityPlayer player, int count)
+    {
+    	if(ConfigHandler.disableRebound)
+    		return;
     	UUID uuid = EntityPlayer.func_146094_a(player.getGameProfile());
     	count = Math.max(0,count + Unavoidable.get(uuid));
     	Unavoidable.put(uuid, count);
     }
     
-    public static int getUnavoidableCount(EntityPlayer player) {
-    	if(ConfigHandler.disableRebound) return 0;
+    public static int getUnavoidableCount(EntityPlayer player)
+    {
+    	if(ConfigHandler.disableRebound)
+    		return 0;
     	UUID uuid = EntityPlayer.func_146094_a(player.getGameProfile());
-    	if(!Unavoidable.containsKey(uuid)) {
+    	if(!Unavoidable.containsKey(uuid))
     		Unavoidable.put(uuid, 0);
-    	}
     	return Unavoidable.get(uuid);
     }
 }

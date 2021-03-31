@@ -84,7 +84,7 @@ public class ConfigHandler {
     private static void loadConfiguration()
     {
         wussMode = config.getBoolean("wussMode", "general", false, "enables less expensive recipes");
-        disableRebound = config.getBoolean("disableRebound", "general", false, "disable warp events ignoring warpwarding which occur by purify tear");
+        disableRebound = config.getBoolean("disableRebound", "general", false, "disable warp events ignoring warpwarding which occur by Pure Tear");
         permWarpMult = config.getInt("permWarpMult", "general", 4, 0, Integer.MAX_VALUE, "how much more 'expensive' permanent warp is compared to normal warp");
         allowPermWarpRemoval = config.getBoolean("allowPermWarpRemoval", "general", true, "whether items can remove permanent warp or not");
         allowGlobalWarpEffects = config.getBoolean("allowGlobalWarpEffects", "general", true, "whether warp effects that involve the environment are triggered");
