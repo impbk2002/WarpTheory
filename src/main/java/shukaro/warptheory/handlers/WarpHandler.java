@@ -181,11 +181,11 @@ public class WarpHandler
         if (amount <= 0)
             return;
 
-        if (ConfigHandler.allowPermWarpRemoval)
-	{
+    	if (ConfigHandler.allowPermWarpRemoval)
+    	{
             amount = (int) Math.ceil(amount / ConfigHandler.permWarpMult);
             Knowledge.addWarpPerm(name, -amount);
-        }
+    	}
     }
 
     public static int getTotalWarp(EntityPlayer player)
@@ -199,7 +199,7 @@ public class WarpHandler
 
     public static int[] getIndividualWarps(EntityPlayer player)
     {
-    	String userName = player.getDisplayName();
+        String userName = player.getDisplayName();
         int[] totals = new int[] { Knowledge.getWarpPerm(userName), Knowledge.getWarpSticky(userName), Knowledge.getWarpTemp(userName) };
         return totals;
     }
@@ -243,10 +243,10 @@ public class WarpHandler
     {
         int w = getFinalWarp(player.getCurrentEquippedItem(), player);
         for (int a = 0; a < 4; a++)
-          w += getFinalWarp(player.inventory.armorItemInSlot(a), player); 
+            w += getFinalWarp(player.inventory.armorItemInSlot(a), player); 
         IInventory baubles = BaublesApi.getBaubles(player);
         for (int i = 0; i < 4; i++)
-          w += getFinalWarp(baubles.getStackInSlot(i), player); 
+            w += getFinalWarp(baubles.getStackInSlot(i), player); 
         return w;
     }
 
@@ -304,28 +304,28 @@ public class WarpHandler
     
     public static void setUnavoidableCount(EntityPlayer player, int count)
     {
-    	if(ConfigHandler.disableRebound)
+        if(ConfigHandler.disableRebound)
             return;
-    	UUID uuid = EntityPlayer.func_146094_a(player.getGameProfile());
-    	Unavoidable.put(uuid, Math.max(0,count));
+        UUID uuid = EntityPlayer.func_146094_a(player.getGameProfile());
+        Unavoidable.put(uuid, Math.max(0,count));
     }
     
     public static void addUnavoidableCount(EntityPlayer player, int count)
     {
-    	if(ConfigHandler.disableRebound)
+        if(ConfigHandler.disableRebound)
             return;
-    	UUID uuid = EntityPlayer.func_146094_a(player.getGameProfile());
-    	count = Math.max(0,count + Unavoidable.get(uuid));
-    	Unavoidable.put(uuid, count);
+        UUID uuid = EntityPlayer.func_146094_a(player.getGameProfile());
+        count = Math.max(0,count + Unavoidable.get(uuid));
+        Unavoidable.put(uuid, count);
     }
     
     public static int getUnavoidableCount(EntityPlayer player)
     {
         if(ConfigHandler.disableRebound)
             return 0;
-    	UUID uuid = EntityPlayer.func_146094_a(player.getGameProfile());
-    	if(!Unavoidable.containsKey(uuid))
-    		Unavoidable.put(uuid, 0);
-    	return Unavoidable.get(uuid);
+        UUID uuid = EntityPlayer.func_146094_a(player.getGameProfile());
+        if(!Unavoidable.containsKey(uuid))
+            Unavoidable.put(uuid, 0);
+        return Unavoidable.get(uuid);
     }
 }
