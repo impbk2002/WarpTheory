@@ -306,7 +306,7 @@ public class WarpHandler
     {
         if(ConfigHandler.disableRebound)
             return;
-        UUID uuid = EntityPlayer.func_146094_a(player.getGameProfile());
+        UUID uuid = player.getUniqueID();
         Unavoidable.put(uuid, Math.max(0,count));
     }
     
@@ -314,7 +314,7 @@ public class WarpHandler
     {
         if(ConfigHandler.disableRebound)
             return;
-        UUID uuid = EntityPlayer.func_146094_a(player.getGameProfile());
+        UUID uuid = player.getUniqueID();
         count = Math.max(0,count + Unavoidable.get(uuid));
         Unavoidable.put(uuid, count);
     }
@@ -323,7 +323,7 @@ public class WarpHandler
     {
         if(ConfigHandler.disableRebound)
             return 0;
-        UUID uuid = EntityPlayer.func_146094_a(player.getGameProfile());
+        UUID uuid = player.getUniqueID();
         if(!Unavoidable.containsKey(uuid))
             Unavoidable.put(uuid, 0);
         return Unavoidable.get(uuid);
