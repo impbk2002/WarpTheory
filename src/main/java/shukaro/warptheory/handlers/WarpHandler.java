@@ -156,7 +156,7 @@ public class WarpHandler
 			ChatHelper.sendToPlayer(player, StatCollector.translateToLocal("chat.warptheory.purgefailed"));
     }
 	
-	public static void removeWarp(EntityPlayer player, int amount)
+    public static void removeWarp(EntityPlayer player, int amount)
     {
 		if (amount <= 0)
 			return;
