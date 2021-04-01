@@ -29,8 +29,8 @@ import thaumcraft.common.lib.research.PlayerKnowledge;
 
 public class WarpHandler
 {
-	public static final PlayerKnowledge Knowledge = Thaumcraft.proxy.getPlayerKnowledge();
-	private static HashMap<UUID, Integer> Unavoidable = new HashMap<UUID, Integer>();
+    public static final PlayerKnowledge Knowledge = Thaumcraft.proxy.getPlayerKnowledge();
+    private static HashMap<UUID, Integer> Unavoidable = new HashMap<UUID, Integer>();
     public static ArrayList<IWarpEvent> warpEvents = new ArrayList<IWarpEvent>();
 
     public static Map<NameMetaPair, NameMetaPair> decayMappings = new THashMap<NameMetaPair, NameMetaPair>();
@@ -158,36 +158,35 @@ public class WarpHandler
 	
     public static void removeWarp(EntityPlayer player, int amount)
     {
-		if (amount <= 0)
-			return;
-		String name = player.getDisplayName();
-		int wp = Knowledge.getWarpPerm(name);
-		int wn = Knowledge.getWarpSticky(name);
-		int wt = Knowledge.getWarpTemp(name);
-		// reset the warp counter so
-		// 1) if partial warp reduction, reset the counter so vanilla TC warp events
-		// would fire
-		// the same behavior can be observed on TC sanitizing soap
-		// 2) if total warp reduction, the counter would be reduced to 0, so vanilla TC
-		// warp events would
-		// no longer fire
-		Knowledge.setWarpCounter(name, wp + wn + wt - amount);
+        if (amount <= 0)
+            return;
+        String name = player.getDisplayName();
+        int wp = Knowledge.getWarpPerm(name);
+        int wn = Knowledge.getWarpSticky(name);
+        int wt = Knowledge.getWarpTemp(name);
+        // reset the warp counter so
+        // 1) if partial warp reduction, reset the counter so vanilla TC warp events would fire
+        //    the same behavior can be observed on TC sanitizing soap
+        // 2) if total warp reduction, the counter would be reduced to 0, so vanilla TC warp events would
+        //    no longer fire
+        Knowledge.setWarpCounter(name, wp + wn + wt - amount);
 
-		Knowledge.addWarpTemp(name, -amount);
-		amount -= wt;
-		if (amount <= 0)
-			return;
+        Knowledge.addWarpTemp(name, -amount);
+        amount -= wt;
+        if (amount <= 0)
+            return;
 
-		Knowledge.addWarpSticky(name, -amount);
-		amount -= wn;
-		if (amount <= 0)
-			return;
+        Knowledge.addWarpSticky(name, -amount);
+        amount -= wn;
+        if (amount <= 0)
+            return;
 
-		if (ConfigHandler.allowPermWarpRemoval) {
-			amount = (int) Math.ceil(amount / ConfigHandler.permWarpMult);
-			Knowledge.addWarpPerm(name, -amount);
-		}
-	}
+        if (ConfigHandler.allowPermWarpRemoval)
+	{
+            amount = (int) Math.ceil(amount / ConfigHandler.permWarpMult);
+            Knowledge.addWarpPerm(name, -amount);
+        }
+    }
 
     public static int getTotalWarp(EntityPlayer player)
     {
@@ -251,13 +250,13 @@ public class WarpHandler
         return w;
     }
 
-	public static int getFinalWarp(ItemStack stack, EntityPlayer player)
+    public static int getFinalWarp(ItemStack stack, EntityPlayer player)
     {
-		if (stack == null || !(stack.getItem() instanceof IWarpingGear))
-			return 0;
-		IWarpingGear armor = (IWarpingGear) stack.getItem();
-		return armor.getWarp(stack, player);
-	}
+        if (stack == null || !(stack.getItem() instanceof IWarpingGear))
+            return 0;
+        IWarpingGear armor = (IWarpingGear) stack.getItem();
+        return armor.getWarp(stack, player);
+    }
 	
     public static IWarpEvent getEventFromName(String name)
     {
@@ -306,7 +305,7 @@ public class WarpHandler
     public static void setUnavoidableCount(EntityPlayer player, int count)
     {
     	if(ConfigHandler.disableRebound)
-    		return;
+            return;
     	UUID uuid = EntityPlayer.func_146094_a(player.getGameProfile());
     	Unavoidable.put(uuid, Math.max(0,count));
     }
@@ -314,7 +313,7 @@ public class WarpHandler
     public static void addUnavoidableCount(EntityPlayer player, int count)
     {
     	if(ConfigHandler.disableRebound)
-    		return;
+            return;
     	UUID uuid = EntityPlayer.func_146094_a(player.getGameProfile());
     	count = Math.max(0,count + Unavoidable.get(uuid));
     	Unavoidable.put(uuid, count);
@@ -322,8 +321,8 @@ public class WarpHandler
     
     public static int getUnavoidableCount(EntityPlayer player)
     {
-    	if(ConfigHandler.disableRebound)
-    		return 0;
+        if(ConfigHandler.disableRebound)
+            return 0;
     	UUID uuid = EntityPlayer.func_146094_a(player.getGameProfile());
     	if(!Unavoidable.containsKey(uuid))
     		Unavoidable.put(uuid, 0);

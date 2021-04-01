@@ -18,14 +18,15 @@ public class WarpEventHandler
             boolean tickflag = !player.worldObj.isRemote && player.ticksExisted > 0 && player.ticksExisted % 2000 == 0;
             if (tickflag && appliable && WarpHandler.getTotalWarp(player) > 0 && player.worldObj.rand.nextInt(100) <= Math.sqrt(WarpHandler.getTotalWarp(player)))
             {
-				IWarpEvent event = WarpHandler.queueOneEvent(player, WarpHandler.getTotalWarp(player));
-				if (event != null) {
-					int warpTemp = WarpHandler.getIndividualWarps(player)[2];
-					if (warpTemp > 0 && event.getCost() <= warpTemp)
-						WarpHandler.removeWarp(player, event.getCost());
-					else if (warpTemp > 0)
-						WarpHandler.removeWarp(player, warpTemp);
-				}
+                IWarpEvent event = WarpHandler.queueOneEvent(player, WarpHandler.getTotalWarp(player));
+                if (event != null)
+                {
+                    int warpTemp = WarpHandler.getIndividualWarps(player)[2];
+                    if (warpTemp > 0 && event.getCost() <= warpTemp)
+                        WarpHandler.removeWarp(player, event.getCost());
+                    else if (warpTemp > 0)
+                        WarpHandler.removeWarp(player, warpTemp);
+                }
             }
             if (player.ticksExisted % 20 == 0 && player.worldObj.rand.nextBoolean())
             {
