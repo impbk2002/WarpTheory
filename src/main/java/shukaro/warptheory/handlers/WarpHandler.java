@@ -214,7 +214,7 @@ public class WarpHandler
             if (event == null)
                 return w;
             w -= event.getCost();
-            count+=1;
+            count += 1;
         }
         return count;
     }
