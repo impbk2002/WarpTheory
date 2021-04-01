@@ -190,11 +190,11 @@ public class WarpHandler
 
     public static int getTotalWarp(EntityPlayer player)
     {
-    	String name = player.getDisplayName();
-    	int innerWarp = Knowledge.getWarpTotal(name);
-    	int extraPerm = Knowledge.getWarpPerm(name) * (int) Math.max(0, ConfigHandler.permWarpMult - 1);
-    	int outerWarp = getWarpFromGear(player);
-    	return innerWarp + extraPerm + outerWarp;
+        String name = player.getDisplayName();
+        int innerWarp = Knowledge.getWarpTotal(name);
+        int extraPerm = Knowledge.getWarpPerm(name) * (int) Math.max(0, ConfigHandler.permWarpMult - 1);
+        int outerWarp = getWarpFromGear(player);
+        return innerWarp + extraPerm + outerWarp;
     }
 
     public static int[] getIndividualWarps(EntityPlayer player)
@@ -243,7 +243,7 @@ public class WarpHandler
     {
         int w = getFinalWarp(player.getCurrentEquippedItem(), player);
         for (int a = 0; a < 4; a++)
-            w += getFinalWarp(player.inventory.armorItemInSlot(a), player); 
+            w += getFinalWarp(player.inventory.armorItemInSlot(a), player);
         IInventory baubles = BaublesApi.getBaubles(player);
         for (int i = 0; i < 4; i++)
             w += getFinalWarp(baubles.getStackInSlot(i), player); 
