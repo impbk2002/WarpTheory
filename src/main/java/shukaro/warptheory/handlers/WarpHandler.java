@@ -3,14 +3,12 @@ package shukaro.warptheory.handlers;
 import baubles.api.BaublesApi;
 import gnu.trove.map.hash.THashMap;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.StatCollector;
 import shukaro.warptheory.handlers.warpevents.*;
 import shukaro.warptheory.util.MiscHelper;
@@ -315,6 +313,8 @@ public class WarpHandler
         if(ConfigHandler.disableRebound)
             return;
         UUID uuid = player.getUniqueID();
+        if(!Unavoidable.containsKey(uuid))
+            Unavoidable.put(uuid, 0);
         count = Math.max(0,count + Unavoidable.get(uuid));
         Unavoidable.put(uuid, count);
     }
