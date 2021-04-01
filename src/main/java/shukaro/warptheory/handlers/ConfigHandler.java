@@ -3,8 +3,6 @@ package shukaro.warptheory.handlers;
 import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.common.config.Configuration;
-import shukaro.warptheory.recipe.WarpRecipes;
-import shukaro.warptheory.research.WarpResearch;
 import shukaro.warptheory.util.Constants;
 
 import java.io.File;
@@ -16,6 +14,7 @@ public class ConfigHandler {
 
     public static Configuration config;
     public static boolean wussMode = false;
+    public static boolean disableRebound = false;
     public static int permWarpMult = 4;
     public static boolean allowPermWarpRemoval = true;
     public static boolean allowGlobalWarpEffects = false;
@@ -85,6 +84,7 @@ public class ConfigHandler {
     private static void loadConfiguration()
     {
         wussMode = config.getBoolean("wussMode", "general", false, "enables less expensive recipes");
+        disableRebound = config.getBoolean("disableRebound", "general", false, "disable warp events ignoring warpwarding which occur by Pure Tear");
         permWarpMult = config.getInt("permWarpMult", "general", 4, 0, Integer.MAX_VALUE, "how much more 'expensive' permanent warp is compared to normal warp");
         allowPermWarpRemoval = config.getBoolean("allowPermWarpRemoval", "general", true, "whether items can remove permanent warp or not");
         allowGlobalWarpEffects = config.getBoolean("allowGlobalWarpEffects", "general", true, "whether warp effects that involve the environment are triggered");

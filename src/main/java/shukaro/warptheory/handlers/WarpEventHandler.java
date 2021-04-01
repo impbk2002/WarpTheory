@@ -3,6 +3,8 @@ package shukaro.warptheory.handlers;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import static thaumcraft.common.config.Config.potionWarpWardID;
+import static thaumcraft.common.config.Config.wuss;
 
 public class WarpEventHandler
 {
@@ -12,8 +14,9 @@ public class WarpEventHandler
         if (e.entity instanceof EntityPlayer)
         {
             EntityPlayer player = (EntityPlayer)e.entity;
-            if (player.ticksExisted % 2000 == 0 && !WarpHandler.wuss && !player.isPotionActive(WarpHandler.potionWarpWardID) && WarpHandler.getTotalWarp(player) > 0 &&
-                    !player.capabilities.isCreativeMode && !player.worldObj.isRemote && player.worldObj.rand.nextInt(100) <= Math.sqrt(WarpHandler.getTotalWarp(player)))
+            boolean appliable = !player.isPotionActive(potionWarpWardID) || (WarpHandler.getUnavoidableCount(player) > 0) && !wuss && !player.capabilities.isCreativeMode;
+            boolean tickflag = !player.worldObj.isRemote && player.ticksExisted > 0 && player.ticksExisted % 2000 == 0;
+            if (tickflag && appliable && WarpHandler.getTotalWarp(player) > 0 && player.worldObj.rand.nextInt(100) <= Math.sqrt(WarpHandler.getTotalWarp(player)))
             {
                 IWarpEvent event = WarpHandler.queueOneEvent(player, WarpHandler.getTotalWarp(player));
                 if (event != null)
