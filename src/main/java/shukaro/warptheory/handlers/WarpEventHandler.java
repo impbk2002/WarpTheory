@@ -31,11 +31,9 @@ public class WarpEventHandler
             if (player.ticksExisted % 20 == 0 && player.worldObj.rand.nextBoolean())
             {
                 IWarpEvent event = WarpHandler.dequeueEvent(player);
+                WarpHandler.addUnavoidableCount(player, -1);
                 if (event != null && event.canDo(player) && appliable)
-                {
-                    WarpHandler.addUnavoidableCount(player, -1);
                     event.doEvent(player.worldObj, player);
-                }
             }
         }
     }
